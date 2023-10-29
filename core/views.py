@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     profile = User.objects.get(username=request.user.username)
     profile_user = Profile.objects.get(user=profile)
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-craeted_at")
     return render(request,'index.html',{"profile_user":profile_user,"posts":posts})
 
 @login_required(login_url='signin')
@@ -79,7 +79,6 @@ def settings(request):
     return render(request,'setting.html',{'user_profile':user_profile})
 
 def signup(request):
-
     if request.method == "POST":
         username = request.POST['username']
         email = request.POST['email']
